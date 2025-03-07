@@ -57,27 +57,43 @@ $ pnpm run test:e2e
 ## Project Structure
 
 ```
-src/
-├── app/                    # Next.js app router
-│   ├── layout.tsx         # Root layout
-│   ├── page.tsx           # Home page
-│   ├── todo-actions.ts    # Server actions
-│   └── user-actions.ts    # User management
-├── components/            # React components
-│   ├── __tests__/        # Component tests
-│   ├── create-todo-form.tsx
-│   ├── error-boundary.tsx
-│   ├── loading.tsx
-│   ├── todo-item.tsx
-│   └── todo-list.tsx
-├── lib/                   # Utilities
-│   ├── db/               # Database setup
-│   │   ├── index.ts     # DB connection
-│   │   ├── migrate.ts   # DB migrations
-│   │   └── schema.ts    # DB schema
-│   └── validations/     # Zod schemas
-└── styles/               # Global styles
-    └── globals.css      # Tailwind imports
+├── .github/                  # GitHub workflows and configurations
+├── src/
+│   ├── app/                  # Next.js App Router pages and layouts
+│   │   ├── api/              # API routes for external requests
+│   │   ├── layout.tsx        # Root layout with providers
+│   │   └── page.tsx          # Main application page
+│   ├── components/           # Reusable UI components
+│   │   ├── error-boundary.tsx
+│   │   ├── loading.tsx
+│   │   └── user-provider.tsx
+│   ├── config/               # Application configuration
+│   ├── constants/            # Global application constants
+│   ├── features/             # Feature-based modules
+│   │   └── todos/            # Todo feature
+│   │       ├── actions.ts    # Server actions for todos
+│   │       ├── components/   # Todo-specific components
+│   │       ├── constants.ts  # Todo-specific constants
+│   │       └── types.ts      # Todo-specific types
+│   │   └── user/             # User feature
+│   │       ├── actions.ts    # User-related server actions
+│   │       └── lib.ts        # User utilities
+│   ├── hooks/                # Shared custom hooks
+│   ├── lib/                  # Core library code
+│   │   ├── db/               # Database configuration
+│   │   │   ├── index.ts      # DB connection
+│   │   │   └── schema.ts     # DB schema
+│   │   ├── data/             # Data access layer
+│   │   └── validations/      # Zod schemas
+│   ├── styles/               # Global styles
+│   │   └── globals.css       # Tailwind imports
+│   └── types/                # Shared TypeScript types
+├── scripts/                  # Utility scripts
+│   └── db/                   # Database scripts
+├── public/                   # Static assets
+├── drizzle/                  # Database migrations
+│   └── meta/                 # Migration metadata
+└── e2e/                      # End-to-end tests
 ```
 
 ## Tech Stack

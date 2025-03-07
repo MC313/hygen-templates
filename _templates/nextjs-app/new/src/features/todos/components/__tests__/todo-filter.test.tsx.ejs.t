@@ -19,20 +19,20 @@ describe("TodoFilterTabs", () => {
 		render(<TodoFilterTabs />)
 		
 		// Check that all filter options are rendered
-		Object.values(TODO_FILTERS).forEach((label) => {
-			expect(screen.getByText(label)).toBeInTheDocument()
+		Object.values(TODO_FILTERS).forEach((filter) => {
+			expect(screen.getByText(filter)).toBeInTheDocument()
 		})
 	})
 	
 	it("highlights the current filter", () => {
 		render(<TodoFilterTabs />)
 		
-		// The "All" button should have the active class
-		const allButton = screen.getByText("All")
+		// The "all" button should have the active class
+		const allButton = screen.getByText("all")
 		expect(allButton).toHaveClass("bg-white")
 		
 		// Other buttons should not have the active class
-		const activeButton = screen.getByText("Active")
+		const activeButton = screen.getByText("active")
 		expect(activeButton).not.toHaveClass("bg-white")
 	})
 	
@@ -44,8 +44,8 @@ describe("TodoFilterTabs", () => {
 		
 		render(<TodoFilterTabs />)
 		
-		// Click the "Active" filter
-		fireEvent.click(screen.getByText("Active"))
+		// Click the "active" filter
+		fireEvent.click(screen.getByText("active"))
 		
 		// Check that router.push was called with the correct URL
 		expect(pushMock).toHaveBeenCalledWith("/?filter=active")

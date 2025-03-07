@@ -4,7 +4,6 @@ to: <%= projectName %>/src/app/layout.tsx
 import { Suspense } from 'react'
 import { Loading } from '@/components/loading'
 import { ErrorBoundary } from '@/components/error-boundary'
-import { UserProvider } from '@/components/user-provider'
 import '@/styles/globals.css'
 
 export const metadata = {
@@ -21,11 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ErrorBoundary>
-          <UserProvider>
             <Suspense fallback={<Loading />}>
               {children}
             </Suspense>
-          </UserProvider>
         </ErrorBoundary>
       </body>
     </html>

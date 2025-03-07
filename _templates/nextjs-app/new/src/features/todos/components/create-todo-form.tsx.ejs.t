@@ -31,7 +31,7 @@ export function CreateTodoForm({ createTodo, userId }: CreateTodoFormProps) {
 	async function handleSubmit(formData: FormData) {
 		const result = await createTodo(formData)
 		
-		if (result.success) {
+		if ("success" in result) {
 			// Clear form and close dialog on success
 			formRef.current?.reset()
 			setIsOpen(false)

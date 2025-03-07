@@ -14,7 +14,7 @@ export function TodoFilterTabs() {
 	const router = useRouter()
 	
 	const currentFilter = (searchParams.get("filter") as TodoFilter) || DEFAULT_FILTER
-	console.log({ currentFilter})
+
 	const createQueryString = useCallback(
 		(name: string, value: string) => {
 			const params = new URLSearchParams(searchParams.toString())

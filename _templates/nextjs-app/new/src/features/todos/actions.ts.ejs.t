@@ -41,6 +41,8 @@ export async function createTodo(formData: FormData) {
 		const todoWithId = {
 			...validatedFields,
 			id: crypto.randomUUID(),
+			createdAt: new Date().toISOString(),
+			updatedAt: new Date().toISOString(),
 		}
 
 		console.log("Inserting todo:", todoWithId)
@@ -59,11 +61,13 @@ export async function createTodo(formData: FormData) {
 		
 		return { success: true }
 	} catch (error) {
-		console.error("Error creating todo:", error)
+		const message = "Failed to create todo"
 		if (error instanceof z.ZodError) {
+			console.error(`[${message}]:`, error)
 			return { error: error.errors[0].message }
 		}
-		return { error: "Failed to create todo" }
+		console.error(`[${message}]:`, error)
+		return { error: message }
 	}
 }
 
@@ -73,6 +77,7 @@ export async function updateTodo(id: string, formData: FormData) {
 			title: formData.get("title"),
 			description: formData.get("description"),
 			userId: formData.get("userId"),
+			updatedAt: new Date().toISOString(),
 		})
 
 		await db
@@ -83,9 +88,12 @@ export async function updateTodo(id: string, formData: FormData) {
 		revalidatePath("/")
 		return { success: true }
 	} catch (error) {
+		const message = "Failed to update todo"
 		if (error instanceof z.ZodError) {
+			console.error(`[${message}]:`, error)
 			return { error: error.errors[0].message }
 		}
+		console.error(`[${message}]:`, error)
 		return { error: "Failed to update todo" }
 	}
 }
@@ -97,14 +105,16 @@ export async function toggleTodo(id: string, completed: boolean) {
 		await db.transaction(async (tx) => {
 			await tx
 				.update(todos)
-				.set({ completed })
+				.set({ completed, updatedAt: new Date().toISOString() })
 				.where(eq(todos.id, id))
 		})
 
 		revalidatePath("/")
 		return { success: true }
 	} catch (error) {
-		return { error: "Failed to update todo" }
+		const message = "Failed to update todo"
+		console.error(`[${message}]:`, error)
+		return { error: message }
 	}
 }
 
@@ -114,6 +124,8 @@ export async function deleteTodo(id: string) {
 		revalidatePath("/")
 		return { success: true }
 	} catch (error) {
-		return { error: "Failed to delete todo" }
+		const message = "Failed to delete todo"
+		console.error(`[${message}]:`, error)
+		return { error: message }
 	}
 }

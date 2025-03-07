@@ -33,3 +33,21 @@ export async function GET(request: Request) {
   
   return response
 } 
+
+export async function POST(request: Request) {
+  const newUserId = randomUUID()
+  
+  const response = NextResponse.json({ userId: newUserId })
+  
+  response.cookies.set({
+    name: USER_ID_KEY,
+    value: newUserId,
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 365, // 1 year
+    path: "/",
+  })
+  
+  return response
+}
