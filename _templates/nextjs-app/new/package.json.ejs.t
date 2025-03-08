@@ -15,6 +15,7 @@ to: <%= projectName %>/package.json
     "check": "biome check --apply .",
     "test": "jest",
     "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "db:init": "tsx scripts/db/init.ts",
     "db:migrate": "tsx scripts/db/migrate.ts",
     "db:studio": "drizzle-kit studio",
