@@ -1,0 +1,51 @@
+
+# @name testing rules
+# @description Defines unit, integration, and E2E testing rules and standards
+
+## General Testing Philosophy
+- Cover unit, integration, and E2E scenarios
+- Write tests for edge cases and expected failures
+- Avoid snapshot testing for complex components — prefer behavior-driven tests
+
+## Unit Testing
+- Use **Jest** with `jest-environment-jsdom`
+- Coverage threshold enforced at 80% for:
+  - branches
+  - functions
+  - lines
+  - statements
+- Test critical business logic and all reusable components
+- Prefer **React Testing Library** for testing React behavior
+- Mock `next/navigation`, `next/router` in tests
+
+## Integration Testing
+- Validate **Server Actions** logic (create, update, delete)
+- Test the **Data Access Layer** (services) with SQLite in-memory or test instance
+- Cover form validation scenarios (Zod validation)
+
+## End-to-End Testing (E2E)
+- Use **Playwright** with Chromium, Firefox, Webkit projects
+- Tests stored in `/e2e`
+- Required E2E coverage:
+  - User creates a Todo
+  - Todo can be filtered and sorted
+  - Todo updates and deletions work
+  - API responses are validated
+
+## Accessibility Testing
+- Integrate **Axe-core** in Jest tests or E2E flows
+- Validate ARIA attributes, keyboard navigation, color contrast
+
+## CI Considerations
+- Run all test suites in GitHub Actions workflow
+- Run `pnpm test`, `pnpm test:e2e`, and accessibility checks
+- Fail builds on coverage drop below threshold
+
+## Test File Organization
+- Place unit tests close to components in `__tests__/`
+- E2E tests reside in `/e2e/`
+- Use `.test.ts(x)` or `.spec.ts(x)` naming convention
+
+## Mocking & Utilities
+- Use Jest mocks for third-party services, `next/` modules
+- Create reusable test utils/helpers (renderWithProviders)

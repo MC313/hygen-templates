@@ -1,0 +1,55 @@
+
+# @name coding standards
+# @description Defines coding style, patterns, and conventions for Next.js 15 production-grade projects
+
+## React & Component Patterns
+- Use **Function Components** only (no class components)
+- Prefer **composition over inheritance**
+- Default to **Server Components** unless interactivity is required
+- Use `"use client"` only where needed
+- Extract reusable logic into **custom hooks** (`/hooks`)
+- Abstract repetitive UI patterns into **components** (`/components`)
+
+## TypeScript Guidelines
+- Enforce **strict mode**
+- Always type function arguments and returns explicitly
+- Avoid `any`, prefer `unknown` if needed
+- Prefer **type aliases** (`type`) over `interface` unless extending
+
+## Error Handling
+- Use try/catch in all async/await operations
+- Wrap critical UI trees in **ErrorBoundary** components
+- Avoid exposing raw error stacks to the client
+
+## Form Handling
+- Use **native HTML forms** and `<button type="submit">`
+- Server Action should validate form data with **Zod**
+- Optimistically update UI using `useFormState` and `useFormStatus`
+
+## Code Style (Biome)
+- 2-space indentation
+- `double` quotes in JSX and TS
+- Trailing commas where valid
+- `;` optional (Biome enforced)
+- Max line length: **80 characters**
+
+## Async/Await Rules
+- Always **await promises** (avoid `.then()` chains)
+- Wrap `await` in try-catch for error safety
+- Use Promise.all() where possible for parallelism
+
+## Naming Conventions
+- Use camelCase for variables and functions
+- PascalCase for components and types
+- snake_case for database fields
+- Constants in SCREAMING_SNAKE_CASE
+
+## Accessibility (A11y)
+- Use semantic HTML (`<main>`, `<header>`, `<nav>`, etc.)
+- ARIA attributes required for interactive components
+- Ensure keyboard navigation support in modals, dropdowns
+- Enforce color contrast ratio
+
+## Linting & Formatting
+- All code must pass Biome linting and formatting before commit
+- Run `pnpm lint` and `pnpm format` pre-commit

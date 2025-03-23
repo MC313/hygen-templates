@@ -1,0 +1,64 @@
+
+# @name database_todo_app
+# @description Defines database setup, structure, and ORM best practices for Drizzle ORM + SQLite with Next.js
+
+## Database Engine & Driver
+- SQLite (local and production-friendly)
+- Use `better-sqlite3` for performant Node.js connectivity
+- Enforce **WAL mode** for concurrency and performance
+- Enable foreign key constraints with `PRAGMA foreign_keys = ON`
+
+## ORM / Schema
+- Use **Drizzle ORM**
+- Schema lives in `src/lib/db/schema.ts`
+- TypeScript types automatically inferred (`$inferSelect`, `$inferInsert`)
+- Use `text()` with length for UUIDs
+- Include `createdAt`, `updatedAt` timestamp defaults
+- All database access wrapped with prepared statements (Drizzle default)
+
+## Migrations
+- All migrations managed by `drizzle-kit`
+- Migrations stored in `/drizzle`
+- Apply migrations via:
+  ```bash
+  pnpm db:migrate
+  ```
+- Drizzle journal stored in `/drizzle/meta/_journal.json`
+- Database initialization:
+  ```bash
+  pnpm db:init
+  ```
+
+## Data Access Patterns
+- Enforce **Data Access Layer** in `lib/data/`
+- No direct database queries in components or hooks
+- Service classes per model (ex: `TodoService`) handle:
+  - `getAll()`
+  - `create()`
+  - `update()`
+  - `delete()`
+- Support for complex filtering and sorting handled in the data layer
+
+## Transactions
+- All create/update/delete actions use Drizzle transactions:
+  ```ts
+  await db.transaction(async (tx) => {
+    await tx.insert(...);
+  });
+  ```
+
+## Performance Considerations
+- Avoid `SELECT *`, always select required columns
+- Add indexes for frequently filtered/sorted fields
+- Optimize query plans with Drizzle's `.explain()` when needed
+
+## Safety & Validations
+- Validate inputs before DB writes (Zod preferred)
+- Prefer `.where(eq(...))` rather than string-based WHERE clauses
+- Log all critical DB failures with full context
+- Avoid leaking raw SQL errors to the client
+
+## Testing
+- Add seed scripts under `scripts/db/`
+- Test with an isolated SQLite instance
+- Include schema integrity checks in CI

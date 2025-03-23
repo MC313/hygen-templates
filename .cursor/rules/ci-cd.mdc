@@ -1,0 +1,70 @@
+
+# @name ci-cd rules
+# @description Defines CI/CD pipeline standards using GitHub Actions for Next.js 15 production apps
+
+## CI Pipeline - GitHub Actions
+
+### Trigger
+- On push to `main` or `release/*`
+- On pull requests
+
+### Environment Setup
+- Use `node:20` image
+- Install dependencies with `pnpm install --frozen-lockfile`
+- **Version pinning enforced** via exact versions in `package.json`
+- Cache `node_modules`, `.next/cache`, and `pnpm-store`
+
+### Linting & Formatting
+- Run Biome checks:
+  ```bash
+  pnpm lint
+  pnpm format --check
+  ```
+
+### Type Checking
+- Run TypeScript type checks
+  ```bash
+  pnpm tsc --noEmit
+  ```
+
+### Unit & Integration Tests
+- Run Jest tests with coverage
+  ```bash
+  pnpm test --coverage
+  ```
+- Enforce coverage threshold 80%
+
+### Database Migrations
+- Run drizzle migrations check (optional) or validate schema
+
+### End-to-End Tests
+- Run Playwright tests headless
+  ```bash
+  pnpm test:e2e
+  ```
+
+### Accessibility (Optional)
+- Axe-core test pass required
+
+## CD Pipeline - Deployment
+- Optional Docker build stage
+  ```bash
+  docker build -t app-name .
+  ```
+- Push to container registry (if applicable)
+- Deploy to target (Hetzner, Coolify, etc.) via SSH or cloud hook
+
+## Deployment Secrets
+- Store sensitive variables in GitHub Actions secrets:
+  - `DATABASE_URL`
+  - `NEXTAUTH_SECRET`
+  - `DOCKER_USERNAME`, `DOCKER_PASSWORD` (if pushing)
+
+## Best Practices
+- Fail pipeline on:
+  - Test failure
+  - Coverage drop
+  - Lint errors
+  - Type errors
+- Deploy only on successful build
+- Auto-tag releases on success

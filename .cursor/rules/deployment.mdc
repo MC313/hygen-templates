@@ -1,0 +1,50 @@
+
+# @name deployment rules
+# @description Defines deployment, containerization, and production build rules for Next.js 15 app
+
+## Build Output
+- Use `next.config.js` with `output: 'standalone'`
+- Bundle serverless-ready output for optimized Docker deployments
+- Generate optimized static assets and server components
+
+## Dockerization
+- Use multi-stage Docker builds for minimal final image
+- Stages:
+  1. Install dependencies with `pnpm`
+  2. Build app (`pnpm build`)
+  3. Copy `.next/standalone` output
+  4. Run production server with `node server.js`
+- Mount SQLite database file if needed
+- Example port: `3000` exposed
+
+## Environment Variables
+- Validate `.env` variables on production boot
+- Use `.env.example` template for documentation
+- Do not expose secrets via `NEXT_PUBLIC_`
+
+## Database Considerations
+- SQLite stored inside the container or external volume
+- Ensure WAL mode is active
+- Drizzle migrations run as part of deployment (`pnpm db:migrate`)
+
+## CI/CD Integration
+- Use GitHub Actions workflow:
+  - Run lint, tests, build
+  - Build Docker image
+  - Push to container registry (optional)
+- Recommended deploy targets: Hetzner Cloud, Coolify, Vercel (if compatible)
+
+## Runtime Environment
+- Node.js 20 or higher
+- Production `NODE_ENV=production`
+- Secure headers enforced via middleware
+- HTTPS-only deployments
+
+## Scaling Considerations
+- Stateless API routes where possible
+- Session stored in SQLite, or offload to Redis for scaling
+- Enable caching headers for static assets
+
+## Monitoring & Observability
+- Add logging for production errors
+- Add health check endpoint if needed (optional)

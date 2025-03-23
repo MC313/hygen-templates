@@ -1,0 +1,13 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+Description: Custom Hooks Standards
+Globs: ["src/hooks/**"]
+---
+
+# Hooks Development Guidelines
+
+- **Validation:** Ensure all hooks validate inputs and maintain type safety.

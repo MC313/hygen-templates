@@ -1,0 +1,14 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+Description: Library Code Standards
+Globs: ["src/lib/**"]
+---
+
+# Library Code Guidelines
+
+- **Input Validation:** Validate all user input and enforce authorization.
+- **Data Handling:** Avoid passing sensitive data to the client.

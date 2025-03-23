@@ -1,0 +1,59 @@
+
+# @name documentation rules
+# @description Defines documentation standards and patterns for production-grade projects
+
+## General Principles
+- Documentation must be clear, concise, and updated with code changes
+- Prefer Markdown `.md` files for project-level docs
+- All new modules, features, and APIs must include docs
+
+## README.md Standards
+- Project overview and purpose
+- Tech stack summary with version references
+- Installation and setup guide
+- Development commands (pnpm scripts)
+- Database migration steps
+- Testing instructions
+- Contribution guidelines (if open source)
+- License section
+
+## API Documentation
+- All API routes should have inline JSDoc comments
+- Describe:
+  - Expected input and validation
+  - Authentication requirements
+  - Response structure and status codes
+- Example:
+  ```ts
+  /**
+   * GET /api/todos
+   * Fetches all todos for the authenticated user
+   * @returns {Todo[]}
+   */
+  ```
+
+## Code Comments & JSDoc
+- Use JSDoc-style comments for functions, classes, and modules
+- Required for:
+  - Public exports
+  - Complex logic blocks
+  - Utilities and helpers
+
+## Feature Documentation
+- Each feature folder `/features/*` must include a `README.md` if complex
+- Explain the feature purpose, architecture, and related flows
+- Include usage examples if possible
+
+## Schema & Validation Documentation
+- Database schema explained in `/lib/db/README.md`
+- Zod validations documented inline or as comments
+- Mention default values, optional fields, and data types
+
+## Versioning & Changelog
+- Maintain `CHANGELOG.md` for release notes
+- Use semantic versioning guidelines (`1.0.0` format)
+- Auto-update changelog via CI/CD (optional)
+
+## Diagrams & Visuals (Optional)
+- Include architecture diagrams (`/docs/diagrams/`)
+- Flowcharts or sequence diagrams for critical flows

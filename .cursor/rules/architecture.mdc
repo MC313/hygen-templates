@@ -1,0 +1,45 @@
+
+# @name architecture_todo_app
+# @description Defines architecture, structure, and component guidelines for production-grade Next.js 15 todo app
+
+## Folder Structure & Boundaries
+- Enforce **feature-first** organization inside `/features/`
+- **lib/** strictly for database, utilities, and third-party integrations
+- **components/** only for reusable presentational components
+- **hooks/** for custom React hooks, reusable logic extracted from components
+- **middleware/** for Next.js edge middlewares (security, sessions)
+
+## React Patterns
+- Use **Function Components** only (`const Component = () => {}`)
+- **Prefer composition over inheritance**
+- Wrap risky operations in **ErrorBoundaries**
+- Default to **Server Components**, add `"use client"` only when interactivity is required
+- Abstract repeated logic into **custom hooks**
+
+## State & Data Flow
+- Use **Next.js Server Actions** for mutations
+- Form handling with **native HTML forms + Zod validation**
+- **React Context** for minimal global UI state
+- Prefer **URL query parameters** for shareable state (filters, sort)
+- Leverage **useFormState/useFormStatus** where applicable
+
+## Best Practices
+- **No direct DB access in client**
+- **No logic duplication between Server Actions and client**
+- All server actions re-validate user/session per call
+- Extract complex SQL queries into the **data layer**
+
+## Component Conventions
+- All inputs use **controlled components**
+- Always add **ARIA** attributes and semantic HTML
+- Abstract repetitive dialog/modal patterns using **Headless UI**
+
+## Error Handling
+- Differentiate dev vs production error handling
+- Sanitize messages for client exposure
+- Add `.catch()` or try-catch around async logic
+
+## Async Handling
+- Prefer `async/await` over `.then()`
+- Validate `searchParams`, dynamic routes, and query params
+- Log full stack traces on the server

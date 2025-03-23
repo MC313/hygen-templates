@@ -1,0 +1,49 @@
+
+# @name accessibility rules
+# @description Defines accessibility (A11y) standards and guidelines for Next.js production apps
+
+## General Principles
+- Design and develop with accessibility-first mindset
+- Ensure keyboard operability for all interactive elements
+- Avoid using `display: none` or `visibility: hidden` for accessible content
+
+## Semantic HTML
+- Use proper semantic elements (`<main>`, `<header>`, `<nav>`, `<section>`, `<footer>`, etc.)
+- Use `<button>` for actions, never `<div>` or `<span>`
+- Use `<label>` elements associated with every `<input>`
+
+## ARIA & Roles
+- Use ARIA roles only when semantic HTML isn’t enough
+- Add `role="alert"` for error messages
+- Use `aria-live="polite"` for dynamic content
+- Ensure `aria-expanded`, `aria-controls` are used in dropdowns, modals, accordions
+
+## Keyboard Navigation
+- Ensure tab order is logical and intuitive
+- Focus trap in modals and dialogs (Headless UI already supports this)
+- Escape key should close modals
+- Provide skip-to-content links
+
+## Color & Contrast
+- Ensure color contrast ratio of **4.5:1** minimum for text
+- Never rely on color alone to convey meaning
+- Support dark mode accessibility considerations
+
+## Form Accessibility
+- All form fields must have associated `<label>`
+- Use descriptive error messages, visible to screen readers
+- Indicate required fields clearly (`aria-required` if needed)
+- Use native form elements wherever possible
+
+## Focus Management
+- Auto-focus the first input in modals or forms where appropriate
+- Return focus to the trigger element when dialogs close
+- Avoid `tabindex` misuse — only use positive values where necessary
+
+## Testing Accessibility
+- Integrate **axe-core** accessibility tests in Jest or Playwright
+- Validate color contrast using tools (Lighthouse, axe, etc.)
+- Manually test keyboard-only navigation
+
+## Documentation
+- Document known accessibility limitations and remediation plans

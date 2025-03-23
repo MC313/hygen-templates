@@ -1,0 +1,62 @@
+
+# @name security_todo_app
+# @description Defines security guidelines and best practices for Next.js 15 production-grade todo app
+
+## General Security Principles
+- Never trust `searchParams`, dynamic routes, or user input — always validate
+- Validate all input using **Zod** or equivalent schema validation
+- Use **Helmet** or custom middleware to set security HTTP headers
+- Enable **strict CSP** where possible
+- Ensure cookies are:
+  - `httpOnly`
+  - `secure`
+  - `sameSite=lax`
+  - Have proper expiration
+
+## Server Component Security
+- Use `'server-only'` for all sensitive logic
+- Mark sensitive objects with `experimental_taintObjectReference()`
+- Never pass sensitive data to client components or via props
+- Re-verify access control on every data fetch inside server components
+
+## Server Actions Security
+- Only allow **POST** for mutating actions
+- Reject mutations from **GET** requests
+- Validate **Origin** and **Host** headers for every mutation
+- Enforce CSRF tokens or same-site cookie validation for Server Actions
+- Re-authorize the user for each mutation
+
+## Session Management
+- Generate secure `UUIDv4` for session/user IDs
+- Store session info server-side in SQLite with expiration timestamps
+- Rotate session tokens on sensitive operations (ex: password change)
+- Use signed and encrypted cookies if possible
+- Limit session duration (default 24 hours)
+
+## Rate Limiting & Abuse Protection
+- Apply rate limiting per session or IP on API routes
+- Log repeated failures or suspicious behavior
+- Respond with appropriate status codes: `429 Too Many Requests`
+
+## Database Security
+- Use **WAL mode** for better resilience
+- Enforce **prepared statements** via Drizzle ORM
+- Sanitize all database-bound input
+- Validate any user-controlled filters or sort fields
+- Restrict DB write permissions in production
+
+## Error Handling
+- Use production error hashing to avoid leaking stack traces
+- Sanitize error messages sent to the client
+- Log full error details on the server
+- Different dev and prod error reporting behavior
+
+## Middleware & Routes Security
+- Explicit allowlist of public routes
+- No sensitive mutations allowed via GET
+- Check session or auth tokens in middleware
+- Add security headers:
+  - `X-Frame-Options: DENY`
+  - `X-Content-Type-Options: nosniff`
+  - `Referrer-Policy: strict-origin-when-cross-origin`
+  - `Strict-Transport-Security: max-age=63072000; includeSubDomains; preload`
